@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BtnCraft — Interactive Development Demo</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="../src/styles/base.css">
+  <link rel="stylesheet" href="../src/styles/animations.css">
+</head>
+<body>
+  <header class="demo-header">
+    <h1>BtnCraft <span class="demo-badge">Dev Workbench</span></h1>
+    <p>Development sandbox for testing, verifying, and tuning all 20 animation effects in vanilla JavaScript.</p>
+  </header>
+
+  <!-- Live Property Control Toolbar -->
+  <section class="demo-controls-panel">
+    <div class="control-group">
+      <label for="ctrl-color">Accent Color</label>
+      <input type="color" id="ctrl-color" value="#6366f1">
+    </div>
+
+    <div class="control-group">
+      <label for="ctrl-variant">Variant</label>
+      <select id="ctrl-variant">
+        <option value="">Default (Solid)</option>
+        <option value="primary">Primary</option>
+        <option value="secondary">Secondary</option>
+        <option value="outline">Outline</option>
+        <option value="ghost">Ghost</option>
+        <option value="gradient">Gradient</option>
+        <option value="danger">Danger</option>
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label for="ctrl-radius">Border Radius</label>
+      <select id="ctrl-radius">
+        <option value="8">8px (Default)</option>
+        <option value="0">0px (Square)</option>
+        <option value="14">14px (Rounded)</option>
+        <option value="24">24px (Curved)</option>
+        <option value="pill">Pill</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label for="ctrl-size">Button Size</label>
+      <select id="ctrl-size">
+        <option value="sm">Small (sm)</option>
+        <option value="md" selected>Medium (md)</option>
+        <option value="lg">Large (lg)</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label for="ctrl-duration">Duration (<span id="duration-val">300ms</span>)</label>
+      <input type="range" id="ctrl-duration" min="100" max="1000" step="50" value="300">
+    </div>
+
+    <div class="control-actions">
+      <button id="btn-toggle-loading" class="demo-btn">Toggle Loading</button>
+      <button id="btn-reset" class="demo-btn">Reset Defaults</button>
+      <button id="btn-toggle-destroy" class="demo-btn primary">Re-Init</button>
+    </div>
+  </section>
+
+  <!-- 20 Animation Cards Grid -->
+  <main class="demo-grid" id="animation-grid">
+    <!-- Populated dynamically via main.js for all 20 animations -->
+  </main>
+
+  <!-- Declarative Markup Verification Section -->
+  <h2 class="demo-section-title">Declarative HTML Verification (data-btncraft)</h2>
+  <section class="demo-declarative-box">
+    <button data-btncraft="gradient-shift" data-color="#ec4899">Declarative Gradient</button>
+    <button data-btncraft="neon-glow" data-color="#10b981">Declarative Neon</button>
+    <button data-btncraft="ripple-click" data-radius="pill" data-color="#3b82f6">Declarative Ripple Pill</button>
+    <button data-btncraft="shimmer" data-variant="outline" data-color="#a855f7">Declarative Shimmer</button>
+    <button data-btncraft="3d-press" data-color="#f59e0b">Declarative 3D Press</button>
+  </section>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

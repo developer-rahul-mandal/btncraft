@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BtnCraft Demo</title>
+
+  <link rel="stylesheet" href="../src/btncraft.css">
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      padding: 40px;
+    }
+
+    .demo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>BtnCraft</h1>
+
+  <div class="demo">
+    <button data-btncraft>Primary</button>
+
+    <button data-btncraft data-variant="secondary">
+      Secondary
+    </button>
+
+    <button data-btncraft data-variant="outline">
+      Outline
+    </button>
+
+    <button
+      data-btncraft
+      data-variant="danger"
+      data-size="lg"
+      data-radius="pill"
+    >
+      Delete
+    </button>
+
+    <button id="save" data-btncraft>Save changes</button>
+  </div>
+
+  <script type="module">
+    import { initBtnCraft, setLoading } from "../src/index.js";
+
+    initBtnCraft();
+
+    const button = document.querySelector("#save");
+
+    button.addEventListener("click", async () => {
+      setLoading(button, true, "Saving changes");
+
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1500));
+      } finally {
+        setLoading(button, false);
+      }
+    });
+  </script>
+</body>
+</html>

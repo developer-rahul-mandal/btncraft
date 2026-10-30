@@ -1,0 +1,69 @@
+{
+  "name": "btncraft",
+  "version": "1.0.0",
+  "description": "Production-ready, lightweight vanilla JavaScript animated button library with 20+ animation effects",
+  "type": "module",
+  "license": "MIT",
+  "main": "./dist/btncraft.umd.js",
+  "module": "./dist/btncraft.es.js",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/btncraft.umd.js",
+  "jsdelivr": "./dist/btncraft.umd.js",
+  "style": "./dist/btncraft.css",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/btncraft.es.js",
+      "require": "./dist/btncraft.umd.js",
+      "default": "./src/index.js"
+    },
+    "./style.css": {
+      "import": "./dist/btncraft.css",
+      "require": "./dist/btncraft.css",
+      "default": "./src/btncraft.css"
+    },
+    "./btncraft.css": "./dist/btncraft.css"
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node -e \"import('node:fs').then(fs => fs.copyFileSync('src/index.d.ts', 'dist/index.d.ts'))\"",
+    "prepack": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "button",
+    "buttons",
+    "animations",
+    "vanilla-js",
+    "css3",
+    "ui",
+    "btncraft",
+    "interactive",
+    "glow",
+    "ripple",
+    "micro-interactions"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/developer-rahul-mandal/btncraft.git"
+  },
+  "bugs": {
+    "url": "https://github.com/developer-rahul-mandal/btncraft/issues"
+  },
+  "homepage": "https://github.com/developer-rahul-mandal/btncraft#readme",
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "vitest": "^5.0.5"
+  }
+}

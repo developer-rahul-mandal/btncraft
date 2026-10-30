@@ -1,0 +1,168 @@
+/**
+ * BtnCraft - Base Stylesheet
+ */
+
+:root {
+  --bc-default-duration: 200ms;
+}
+
+.bc-btn {
+  --bc-bg: #2563eb;
+  --bc-color: #ffffff;
+  --bc-border: transparent;
+  --bc-radius: 8px;
+  --bc-padding-y: 10px;
+  --bc-padding-x: 18px;
+  --bc-font-size: 14px;
+  --bc-focus: #93c5fd;
+  --bc-duration: 200ms;
+  --bc-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: var(--bc-padding-y) var(--bc-padding-x);
+  border: 1px solid var(--bc-border);
+  border-radius: var(--bc-radius);
+
+  background: var(--bc-bg);
+  color: var(--bc-color);
+  font: inherit;
+  font-size: var(--bc-font-size);
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+  user-select: none;
+  vertical-align: middle;
+
+  cursor: pointer;
+  box-shadow: var(--bc-shadow);
+  transition:
+    background-color var(--bc-duration) ease,
+    color var(--bc-duration) ease,
+    border-color var(--bc-duration) ease,
+    box-shadow var(--bc-duration) ease,
+    transform var(--bc-duration) ease;
+}
+
+/* Variants */
+.bc-btn[data-variant="secondary"] {
+  --bc-bg: #e5e7eb;
+  --bc-color: #111827;
+}
+
+.bc-btn[data-variant="outline"] {
+  --bc-bg: transparent;
+  --bc-color: #2563eb;
+  --bc-border: currentColor;
+}
+
+.bc-btn[data-variant="ghost"] {
+  --bc-bg: transparent;
+  --bc-color: #2563eb;
+  --bc-shadow: none;
+}
+
+.bc-btn[data-variant="danger"] {
+  --bc-bg: #dc2626;
+  --bc-color: #ffffff;
+}
+
+.bc-btn[data-variant="gradient"] {
+  --bc-bg: linear-gradient(135deg, #6366f1, #a855f7);
+  --bc-color: #ffffff;
+}
+
+.bc-btn[data-variant="dark"] {
+  --bc-bg: #0f172a;
+  --bc-color: #f8fafc;
+}
+
+.bc-btn[data-variant="light"] {
+  --bc-bg: #ffffff;
+  --bc-color: #0f172a;
+  --bc-border: #e2e8f0;
+}
+
+/* Sizes */
+.bc-btn[data-size="sm"] {
+  --bc-padding-y: 6px;
+  --bc-padding-x: 12px;
+  --bc-font-size: 12px;
+}
+
+.bc-btn[data-size="lg"] {
+  --bc-padding-y: 14px;
+  --bc-padding-x: 24px;
+  --bc-font-size: 16px;
+}
+
+/* Border radius shapes */
+.bc-btn[data-radius="square"] {
+  --bc-radius: 0;
+}
+
+.bc-btn[data-radius="pill"] {
+  --bc-radius: 9999px;
+}
+
+/* Interactive States */
+.bc-btn:not(:disabled):hover {
+  filter: brightness(0.96);
+}
+
+.bc-btn:not(:disabled):active {
+  transform: translateY(1px);
+}
+
+.bc-btn:focus-visible {
+  outline: 3px solid var(--bc-focus);
+  outline-offset: 3px;
+}
+
+.bc-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Helper content wrapper */
+.bc-content {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: inherit;
+}
+
+/* Spinner for loading state */
+.bc-spinner {
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: bc-spin 650ms linear infinite;
+}
+
+@keyframes bc-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Accessibility: prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .bc-btn {
+    transition: none !important;
+  }
+
+  .bc-spinner {
+    animation-duration: 1.8s;
+  }
+}
