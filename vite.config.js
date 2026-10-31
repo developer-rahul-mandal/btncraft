@@ -9,8 +9,11 @@ export default defineConfig({
     lib: {
       entry: resolve(rootDir, 'src/index.js'),
       name: 'BtnCraft',
-      fileName: (format) => `btncraft.${format}.js`,
-      formats: ['es', 'umd']
+      fileName: (format) => {
+        if (format === 'cjs') return 'btncraft.cjs';
+        return `btncraft.${format}.js`;
+      },
+      formats: ['es', 'cjs', 'umd']
     },
     sourcemap: true,
     cssCodeSplit: false,

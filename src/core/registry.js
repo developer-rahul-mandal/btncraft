@@ -25,10 +25,11 @@ class AnimationRegistry {
   /**
    * Registers an animation definition
    * @param {string} name
-   * @param {{ setup: (element: HTMLElement, options: Record<string, any>, cleanup: any) => void|(() => void), className?: string }} definition
-   * @param {string[]} [aliases=[]]
+   * @param {{ setup: (element: HTMLElement, options: Record<string, any>, cleanup: any) => void|(() => void), className?: string, beforeSetup?: Function, afterTeardown?: Function }} definition
+   * @param {string[]|Record<string, any>} [aliasesOrOptions=[]]
+   * @param {Record<string, any>} [options={}]
    */
-  register(name, definition, aliases = []) {
+  register(name, definition, aliasesOrOptions = [], options = {}) {
     if (!name || typeof name !== 'string') {
       throw new Error('[BtnCraft] Animation name must be a non-empty string');
     }
@@ -36,21 +37,58 @@ class AnimationRegistry {
       throw new Error(`[BtnCraft] Animation "${name}" must provide a setup function`);
     }
 
+    let aliases = [];
+    let opts = options;
+
+    if (Array.isArray(aliasesOrOptions)) {
+      aliases = aliasesOrOptions;
+    } else if (aliasesOrOptions && typeof aliasesOrOptions === 'object') {
+      opts = aliasesOrOptions;
+      aliases = Array.isArray(opts.aliases) ? opts.aliases : [];
+    }
+
     const canonical = this.normalizeName(name);
+
+    if (this.animations.has(canonical) && !opts.override) {
+      throw new Error(`[BtnCraft] Animation "${name}" is already registered. Set override: true to replace.`);
+    }
+
     const animRecord = {
       name: canonical,
       displayName: name,
       className: definition.className || `bc-anim-${canonical}`,
-      setup: definition.setup
+      setup: definition.setup,
+      beforeSetup: typeof definition.beforeSetup === 'function' ? definition.beforeSetup : null,
+      afterTeardown: typeof definition.afterTeardown === 'function' ? definition.afterTeardown : null
     };
 
     this.animations.set(canonical, animRecord);
 
     for (const a of aliases) {
-      this.alias(canonical, a);
+      if (a) this.alias(canonical, a);
     }
 
     return animRecord;
+  }
+
+  /**
+   * Unregisters an animation and its aliases
+   * @param {string} name
+   * @returns {boolean}
+   */
+  unregister(name) {
+    if (!name || typeof name !== 'string') return false;
+    const canonical = this.resolveName(name);
+    const wasRegistered = this.animations.delete(canonical);
+
+    // Clean up any aliases mapping to this canonical name
+    for (const [alias, target] of this.aliases.entries()) {
+      if (target === canonical || alias === canonical) {
+        this.aliases.delete(alias);
+      }
+    }
+
+    return wasRegistered;
   }
 
   /**

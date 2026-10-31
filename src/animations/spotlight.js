@@ -1,6 +1,7 @@
 /**
  * Animation: Spotlight
- * Interactive radial spotlight that tracks the mouse pointer within the button bounds
+ * Interactive radial spotlight that tracks the mouse pointer within the button bounds.
+ * Supports desktop mouse and mobile pointer events with cached rect optimization.
  */
 
 import { prefersReducedMotion } from '../utils/dom.js';
@@ -16,8 +17,13 @@ export const spotlight = {
     cleanup.saveStyle('--bc-spot-y');
     cleanup.saveStyle('--bc-spot-opacity');
 
-    const onMouseMove = (e) => {
-      const rect = element.getBoundingClientRect();
+    let cachedRect = null;
+    const updateRect = () => {
+      cachedRect = element.getBoundingClientRect();
+    };
+
+    const onMove = (e) => {
+      const rect = cachedRect || element.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
@@ -26,12 +32,17 @@ export const spotlight = {
       element.style.setProperty('--bc-spot-opacity', '1');
     };
 
-    const onMouseLeave = () => {
+    const onLeave = () => {
+      cachedRect = null;
       element.style.setProperty('--bc-spot-opacity', '0');
     };
 
-    cleanup.addEventListener(element, 'mousemove', onMouseMove);
-    cleanup.addEventListener(element, 'mouseleave', onMouseLeave);
+    cleanup.addEventListener(element, 'mouseenter', updateRect);
+    cleanup.addEventListener(element, 'mousemove', onMove);
+    cleanup.addEventListener(element, 'mouseleave', onLeave);
+    cleanup.addEventListener(element, 'pointerenter', updateRect);
+    cleanup.addEventListener(element, 'pointermove', onMove);
+    cleanup.addEventListener(element, 'pointerleave', onLeave);
 
     cleanup.add(() => {
       element.style.removeProperty('--bc-spot-x');

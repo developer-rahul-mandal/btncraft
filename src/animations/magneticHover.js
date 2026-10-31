@@ -1,6 +1,7 @@
 /**
  * Animation: Magnetic Hover
- * Smooth cursor-attraction physics that pulls the button towards the pointer
+ * High-performance cursor-attraction physics that pulls the button towards the pointer.
+ * Supports desktop mouse and mobile pointer events with cached rect optimization.
  */
 
 import { prefersReducedMotion } from '../utils/dom.js';
@@ -18,8 +19,13 @@ export const magneticHover = {
     cleanup.saveStyle('transform');
     cleanup.saveStyle('transition');
 
-    const onMouseMove = (e) => {
-      const rect = element.getBoundingClientRect();
+    let cachedRect = null;
+    const updateRect = () => {
+      cachedRect = element.getBoundingClientRect();
+    };
+
+    const onMove = (e) => {
+      const rect = cachedRect || element.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
       const deltaX = (e.clientX - centerX) * strength;
@@ -29,13 +35,18 @@ export const magneticHover = {
       element.style.transform = `translate3d(${deltaX.toFixed(2)}px, ${deltaY.toFixed(2)}px, 0)`;
     };
 
-    const onMouseLeave = () => {
+    const onLeave = () => {
+      cachedRect = null;
       element.style.transition = 'transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1)';
       element.style.transform = 'translate3d(0, 0, 0)';
     };
 
-    cleanup.addEventListener(element, 'mousemove', onMouseMove);
-    cleanup.addEventListener(element, 'mouseleave', onMouseLeave);
+    cleanup.addEventListener(element, 'mouseenter', updateRect);
+    cleanup.addEventListener(element, 'mousemove', onMove);
+    cleanup.addEventListener(element, 'mouseleave', onLeave);
+    cleanup.addEventListener(element, 'pointerenter', updateRect);
+    cleanup.addEventListener(element, 'pointermove', onMove);
+    cleanup.addEventListener(element, 'pointerleave', onLeave);
 
     cleanup.add(() => {
       element.style.transform = '';

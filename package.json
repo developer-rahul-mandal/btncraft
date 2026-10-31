@@ -1,10 +1,10 @@
 {
   "name": "btncraft",
-  "version": "1.0.0",
-  "description": "Production-ready, lightweight vanilla JavaScript animated button library with 20+ animation effects",
+  "version": "2.0.0",
+  "description": "Lightweight, zero-dependency vanilla JavaScript animated button and interaction library with 30 micro-interactions, state engine, icons, and button groups",
   "type": "module",
   "license": "MIT",
-  "main": "./dist/btncraft.umd.js",
+  "main": "./dist/btncraft.cjs",
   "module": "./dist/btncraft.es.js",
   "types": "./dist/index.d.ts",
   "unpkg": "./dist/btncraft.umd.js",
@@ -17,7 +17,7 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/btncraft.es.js",
-      "require": "./dist/btncraft.umd.js",
+      "require": "./dist/btncraft.cjs",
       "default": "./src/index.js"
     },
     "./style.css": {

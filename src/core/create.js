@@ -6,6 +6,8 @@ import { normalizeElements } from '../utils/dom.js';
 import { resolveOptions, getCssVariables } from '../utils/options.js';
 import { CleanupManager } from '../utils/cleanup.js';
 import { registry } from './registry.js';
+import { ButtonStateEngine } from './state.js';
+import { icons } from './icons.js';
 import {
   registerInstance,
   unregisterInstance,
@@ -28,6 +30,51 @@ export class BtnCraftCollection extends Array {
         inst.update(newOptions);
       }
     }
+  }
+
+  loading(isLoading, options) {
+    for (const inst of this) {
+      if (inst && typeof inst.loading === 'function') {
+        inst.loading(isLoading, options);
+      }
+    }
+    return this;
+  }
+
+  success(options) {
+    for (const inst of this) {
+      if (inst && typeof inst.success === 'function') {
+        inst.success(options);
+      }
+    }
+    return this;
+  }
+
+  error(options) {
+    for (const inst of this) {
+      if (inst && typeof inst.error === 'function') {
+        inst.error(options);
+      }
+    }
+    return this;
+  }
+
+  reset() {
+    for (const inst of this) {
+      if (inst && typeof inst.reset === 'function') {
+        inst.reset();
+      }
+    }
+    return this;
+  }
+
+  disabled(isDisabled) {
+    for (const inst of this) {
+      if (inst && typeof inst.disabled === 'function') {
+        inst.disabled(isDisabled);
+      }
+    }
+    return this;
   }
 
   get element() {
@@ -58,9 +105,116 @@ export class BtnCraftInstance {
     this.originalSize = element.getAttribute('data-size');
     this.originalRadiusAttr = element.getAttribute('data-radius');
 
+    // Advanced State Engine
+    this.stateEngine = new ButtonStateEngine(element, this.cleanup);
+
     registerInstance(element, this);
 
     this.init(userOptions);
+  }
+
+  get state() {
+    return this.stateEngine.state;
+  }
+
+  get isLoading() {
+    return this.stateEngine.isLoading;
+  }
+
+  get isSuccess() {
+    return this.stateEngine.isSuccess;
+  }
+
+  get isError() {
+    return this.stateEngine.isError;
+  }
+
+  get isDisabled() {
+    return this.stateEngine.isDisabled;
+  }
+
+  loading(isLoading = true, options = {}) {
+    this.stateEngine.loading(isLoading, options);
+    return this;
+  }
+
+  success(options = {}) {
+    this.stateEngine.success(options);
+    return this;
+  }
+
+  error(options = {}) {
+    this.stateEngine.error(options);
+    return this;
+  }
+
+  reset() {
+    this.stateEngine.reset();
+    return this;
+  }
+
+  disabled(isDisabled = true) {
+    this.stateEngine.disabled(isDisabled);
+    return this;
+  }
+
+  hover(isHovered = true) {
+    this.stateEngine.hover(isHovered);
+    return this;
+  }
+
+  active(isActive = true) {
+    this.stateEngine.active(isActive);
+    return this;
+  }
+
+  focus(isFocused = true) {
+    this.stateEngine.focus(isFocused);
+    return this;
+  }
+
+  execute(asyncFn, options = {}) {
+    return this.stateEngine.execute(asyncFn, options);
+  }
+
+  on(event, callback) {
+    return this.stateEngine.on(event, callback);
+  }
+
+  rotateIcon(options = {}) {
+    const disposer = icons.rotateIcon(this.element, options);
+    this.cleanup.add(disposer);
+    return this;
+  }
+
+  slideIcon(options = {}) {
+    const disposer = icons.slideIcon(this.element, options);
+    this.cleanup.add(disposer);
+    return this;
+  }
+
+  revealArrow(options = {}) {
+    const disposer = icons.revealArrow(this.element, options);
+    this.cleanup.add(disposer);
+    return this;
+  }
+
+  replaceIcon(newIcon, options = {}) {
+    icons.replaceIcon(this.element, newIcon, options);
+    return this;
+  }
+
+  setText(newText, options = {}) {
+    icons.setText(this.element, newText, options);
+    return this;
+  }
+
+  iconToSpinner(showSpinner = true) {
+    const restore = icons.iconToSpinner(this.element, showSpinner);
+    if (showSpinner) {
+      this.cleanup.add(restore);
+    }
+    return this;
   }
 
   init(userOptions = {}) {
@@ -123,9 +277,17 @@ export class BtnCraftInstance {
         });
 
         try {
+          if (typeof animDef.beforeSetup === 'function') {
+            animDef.beforeSetup(this.element, this.options);
+          }
           const disposer = animDef.setup(this.element, this.options, this.cleanup);
           if (typeof disposer === 'function') {
             this.cleanup.add(disposer);
+          }
+          if (typeof animDef.afterTeardown === 'function') {
+            this.cleanup.add(() => {
+              try { animDef.afterTeardown(this.element, this.options); } catch {}
+            });
           }
         } catch (err) {
           console.error(`[BtnCraft] Error setting up animation "${animName}":`, err);

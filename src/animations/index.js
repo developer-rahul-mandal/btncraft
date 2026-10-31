@@ -26,6 +26,18 @@ import { loadingState } from './loadingState.js';
 import { shineSweep } from './shineSweep.js';
 import { floatingEffect } from './floatingEffect.js';
 
+// V2 New Animations
+import { particleBurst } from './particleBurst.js';
+import { circularReveal } from './circularReveal.js';
+import { textScramble } from './textScramble.js';
+import { clickShockwave } from './clickShockwave.js';
+import { neonBorderPulse } from './neonBorderPulse.js';
+import { elasticStretch } from './elasticStretch.js';
+import { magneticSnap } from './magneticSnap.js';
+import { flipButton } from './flipButton.js';
+import { liquidMorph } from './liquidMorph.js';
+import { elasticBorder } from './elasticBorder.js';
+
 export const allAnimations = [
   gradientShift,
   neonGlow,
@@ -46,7 +58,18 @@ export const allAnimations = [
   bounce,
   loadingState,
   shineSweep,
-  floatingEffect
+  floatingEffect,
+  // V2
+  particleBurst,
+  circularReveal,
+  textScramble,
+  clickShockwave,
+  neonBorderPulse,
+  elasticStretch,
+  magneticSnap,
+  flipButton,
+  liquidMorph,
+  elasticBorder
 ];
 
 /**
@@ -82,5 +105,16 @@ export {
   bounce,
   loadingState,
   shineSweep,
-  floatingEffect
+  floatingEffect,
+  // V2
+  particleBurst,
+  circularReveal,
+  textScramble,
+  clickShockwave,
+  neonBorderPulse,
+  elasticStretch,
+  magneticSnap,
+  flipButton,
+  liquidMorph,
+  elasticBorder
 };
