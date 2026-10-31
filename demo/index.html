@@ -3,15 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BtnCraft — Interactive Development Demo</title>
+  <title>BtnCraft V2 — Interactive Development Workbench</title>
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="../src/styles/base.css">
   <link rel="stylesheet" href="../src/styles/animations.css">
 </head>
 <body>
   <header class="demo-header">
-    <h1>BtnCraft <span class="demo-badge">Dev Workbench</span></h1>
-    <p>Development sandbox for testing, verifying, and tuning all 20 animation effects in vanilla JavaScript.</p>
+    <div class="header-content">
+      <h1>BtnCraft <span class="demo-badge">V2.0.0 Workbench</span></h1>
+      <p>Interactive testing sandbox for 30 micro-interactions, State Engine, Icon animations, and Button Groups.</p>
+    </div>
+    <div class="header-stats">
+      <div class="stat-pill"><span class="stat-num">30</span> Animations</div>
+      <div class="stat-pill"><span class="stat-num">100%</span> Vanilla JS</div>
+      <div class="stat-pill"><span class="stat-num">0</span> Dependencies</div>
+    </div>
   </header>
 
   <!-- Live Property Control Toolbar -->
@@ -62,25 +69,120 @@
     </div>
 
     <div class="control-actions">
-      <button id="btn-toggle-loading" class="demo-btn">Toggle Loading</button>
       <button id="btn-reset" class="demo-btn">Reset Defaults</button>
-      <button id="btn-toggle-destroy" class="demo-btn primary">Re-Init</button>
+      <button id="btn-toggle-destroy" class="demo-btn primary">Re-Init All</button>
     </div>
   </section>
 
-  <!-- 20 Animation Cards Grid -->
+  <!-- V2 Feature Highlights -->
+  <div class="v2-feature-grid">
+    <!-- 1. State Engine Workbench -->
+    <section class="feature-box">
+      <div class="feature-header">
+        <div class="feature-title">
+          <span class="badge-v2">V2 New</span>
+          <h3>Advanced State Engine</h3>
+        </div>
+        <span class="current-state-badge" id="state-status-badge">state: default</span>
+      </div>
+      <p class="feature-desc">Handles async execution, duplicate-click guards, checkmarks, shakes, and auto-reset.</p>
+      
+      <div class="feature-demo-area">
+        <button id="state-demo-btn" class="bc-btn" data-variant="gradient">
+          <span class="btn-text">Submit Payment ($49)</span>
+        </button>
+      </div>
+
+      <div class="feature-controls">
+        <button id="btn-state-exec" class="demo-btn primary">Run Async .execute()</button>
+        <button id="btn-state-loading" class="demo-btn">.loading(true)</button>
+        <button id="btn-state-success" class="demo-btn">.success()</button>
+        <button id="btn-state-error" class="demo-btn">.error()</button>
+        <button id="btn-state-reset" class="demo-btn">.reset()</button>
+      </div>
+    </section>
+
+    <!-- 2. Button Groups & Segmented Controls -->
+    <section class="feature-box">
+      <div class="feature-header">
+        <div class="feature-title">
+          <span class="badge-v2">V2 New</span>
+          <h3>Button Groups & Segmented Controls</h3>
+        </div>
+        <span class="current-state-badge" id="group-val-badge">val: "month"</span>
+      </div>
+      <p class="feature-desc">Accessible WCAG roving tabindex and ArrowLeft/Right/Home/End keyboard navigation.</p>
+
+      <div class="feature-demo-area flex-col gap-12">
+        <!-- Segmented Control -->
+        <div id="demo-segmented-group">
+          <button data-value="day">Day</button>
+          <button data-value="week">Week</button>
+          <button data-value="month">Month</button>
+          <button data-value="year">Year</button>
+        </div>
+
+        <!-- Multiple Toggle Group -->
+        <div id="demo-multi-group">
+          <button data-value="bold"><b>B</b></button>
+          <button data-value="italic"><i>I</i></button>
+          <button data-value="underline"><u>U</u></button>
+          <button data-value="code"><code>&lt;&gt;</code></button>
+        </div>
+      </div>
+
+      <div class="feature-controls">
+        <span class="keyboard-hint">Tip: Focus and press &larr; / &rarr; / Home / End</span>
+      </div>
+    </section>
+
+    <!-- 3. Icon & Content Animation System -->
+    <section class="feature-box">
+      <div class="feature-header">
+        <div class="feature-title">
+          <span class="badge-v2">V2 New</span>
+          <h3>Icon & Content System</h3>
+        </div>
+      </div>
+      <p class="feature-desc">Micro-interactions for icons and text without any icon library dependencies.</p>
+
+      <div class="feature-demo-area">
+        <button id="icon-demo-btn" class="bc-btn" data-variant="primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="demo-icon">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+          <span class="btn-text">Continue</span>
+        </button>
+      </div>
+
+      <div class="feature-controls">
+        <button id="btn-icon-rotate" class="demo-btn">Rotate Icon</button>
+        <button id="btn-icon-slide" class="demo-btn">Slide Right</button>
+        <button id="btn-icon-spinner" class="demo-btn">Icon ➔ Spinner</button>
+        <button id="btn-icon-text" class="demo-btn">Slide-Up Text</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- 30 Animation Cards Grid -->
+  <div class="section-heading">
+    <h2>All 30 Micro-Interactions</h2>
+    <span class="section-sub">Hover and click buttons below to test animations in real-time</span>
+  </div>
   <main class="demo-grid" id="animation-grid">
-    <!-- Populated dynamically via main.js for all 20 animations -->
+    <!-- Populated dynamically via main.js for all 30 animations -->
   </main>
 
   <!-- Declarative Markup Verification Section -->
   <h2 class="demo-section-title">Declarative HTML Verification (data-btncraft)</h2>
   <section class="demo-declarative-box">
-    <button data-btncraft="gradient-shift" data-color="#ec4899">Declarative Gradient</button>
-    <button data-btncraft="neon-glow" data-color="#10b981">Declarative Neon</button>
-    <button data-btncraft="ripple-click" data-radius="pill" data-color="#3b82f6">Declarative Ripple Pill</button>
-    <button data-btncraft="shimmer" data-variant="outline" data-color="#a855f7">Declarative Shimmer</button>
-    <button data-btncraft="3d-press" data-color="#f59e0b">Declarative 3D Press</button>
+    <button data-btncraft="particle-burst" data-color="#ec4899">Declarative Particles</button>
+    <button data-btncraft="circular-reveal" data-color="#10b981">Declarative Reveal</button>
+    <button data-btncraft="text-scramble" data-color="#3b82f6">Declarative Scramble</button>
+    <button data-btncraft="click-shockwave" data-color="#f59e0b">Declarative Shockwave</button>
+    <button data-btncraft="neon-border-pulse" data-color="#a855f7">Declarative Neon Border</button>
+    <button data-btncraft="flip-button" data-color="#06b6d4">Declarative 3D Flip</button>
   </section>
 
   <script type="module" src="./main.js"></script>
