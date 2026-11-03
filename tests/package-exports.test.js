@@ -2,12 +2,21 @@
 
 import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
+import { execSync } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
 import fs from 'node:fs';
 import path from 'node:path';
 
+// Ensure dist artifacts exist before testing exports
+const esmFilePath = path.resolve(__dirname, '../dist/btncraft.es.js');
+if (!fs.existsSync(esmFilePath)) {
+  execSync('npm run build', { stdio: 'pipe' });
+}
+
 describe('Package Architecture & Distribution', () => {
   it('exports valid ES Module with all expected exports', async () => {
-    const esm = await import('../dist/btncraft.es.js');
+    const esmUrl = pathToFileURL(esmFilePath).href;
+    const esm = await import(/* @vite-ignore */ esmUrl);
 
     expect(esm.BtnCraft).toBeDefined();
     expect(esm.default).toBeDefined();
@@ -21,8 +30,9 @@ describe('Package Architecture & Distribution', () => {
   });
 
   it('exports valid CommonJS module with require() in Node.js', () => {
+    const cjsFilePath = path.resolve(__dirname, '../dist/btncraft.cjs');
     const req = createRequire(import.meta.url);
-    const cjs = req('../dist/btncraft.cjs');
+    const cjs = req(cjsFilePath);
 
     expect(cjs).toBeDefined();
     expect(typeof cjs.create).toBe('function');

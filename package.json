@@ -36,6 +36,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && node -e \"import('node:fs').then(fs => fs.copyFileSync('src/index.d.ts', 'dist/index.d.ts'))\"",
+    "pretest": "npm run build",
     "prepack": "npm run build",
     "test": "vitest run",
     "test:watch": "vitest",
